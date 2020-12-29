@@ -30,9 +30,8 @@ def main():
         'Content-Type': 'application/json',
         'type': consts.MsgTypes.INIT
     }
-    url = 'http://127.0.0.1:' + str(consts.Communication.PORT)
-    response = requests.post(url, headers=headers,
-                             data=payload)
+    client = BattleshipsClient('127.0.0.1')
+    response = client.communicate(headers, payload)
     print(f"== HEADERS =======\n{response.headers}\n")
     print(f"== TEXT ==========\n{response.text}")
 

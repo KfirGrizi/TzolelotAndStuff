@@ -15,10 +15,9 @@ class BattleshipsServerPeer:
     def __init__(self):
         pass
 
-    def handle(self, headers, text) -> PacketData:
-        print(f"the text is '{text}'")
-        type = headers.get('type', 0)
-        if consts.MsgTypes.INIT == type:
+    def handle(self, msg_type, text) -> PacketData:
+        print(f"type: '{msg_type}'\ntext: '{text}'")
+        if consts.MsgTypes.INIT == msg_type:
             return PacketData({'type': consts.MsgTypes.INIT}, b'cool init, thanks')
         return PacketData({'type': consts.MsgTypes.FIN}, b"i don't speak your language")
 
@@ -33,7 +32,8 @@ class BattleshipsHTTPRequestHandler(BaseHTTPRequestHandler):
         data = json.loads(self.rfile.read(length).decode())
 
         # handle the request and generate the response
-        res = BattleshipsHTTPRequestHandler.battleships_server_peer.handle(self.headers, data)
+        msg_type = self.headers.get('type', 0)
+        res = BattleshipsHTTPRequestHandler.battleships_server_peer.handle(msg_type, data)
 
         # send a 200 OK response
         self.send_response(200)
