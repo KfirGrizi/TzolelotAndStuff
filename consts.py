@@ -20,3 +20,11 @@ class Communication:
 
     PORT = 80
     SERVER_HOST = '127.0.0.1'
+
+
+class GameRules:
+    """
+    holds game rules related consts
+    """
+
+    BOARD_LEN = 10
