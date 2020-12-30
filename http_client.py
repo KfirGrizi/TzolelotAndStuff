@@ -3,6 +3,7 @@ import requests
 import json
 
 import consts
+import game_manager
 
 
 class PacketData:
@@ -22,18 +23,28 @@ class BattleshipsClient:
 
 
 def main():
-    payload = json.dumps({
-        "test data": "nice value"
-    })
-
+    battleships_game_manager = game_manager.BattleshipsGameManager()
+    payload = json.dumps({})
     headers = {
         'Content-Type': 'application/json',
         'type': consts.MsgTypes.INIT
     }
     client = BattleshipsClient('127.0.0.1')
     response = client.communicate(headers, payload)
-    print(f"== HEADERS =======\n{response.headers}\n")
-    print(f"== TEXT ==========\n{response.text}")
+    print('sent init')
+    while True:
+        msg_type = response.headers['type']
+        print(f'got {msg_type}: {response.text}')
+        if consts.MsgTypes.FIN == msg_type:
+            print("VICTORY!!!!!!")
+            break
+        request = battleships_game_manager.play_turn(msg_type, response.text)
+        headers['type'] = request.msg_type
+        response = client.communicate(headers, request.msg_data)
+        print(f'sent {request.msg_type}: {request.msg_data}')
+        if consts.MsgTypes.FIN == request.msg_type:
+            print("Just lost smh...")
+            break
 
 
 if __name__ == '__main__':
