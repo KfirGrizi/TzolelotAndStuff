@@ -2,31 +2,15 @@
 import json
 
 
-def create_empty_msg_data() -> str:
-    return json.dumps({})
-
 def create_shoot_msg_data(location_x: int, location_y: int) -> str:
+    """
+    get a location and create a serialized data to send
+    :param location_x: the location on the x axis
+    :param location_y: the location on the y axis
+    :return: the serialized string
+    """
+
     return json.dumps({
             "location-x": location_x,
             "location-y": location_y
         })
-
-
-def create_init_msg_data() -> str:
-    return create_empty_msg_data()
-
-
-def create_hit_msg_data() -> str:
-    return create_empty_msg_data()
-
-
-def create_hit_sink_msg_data() -> str:
-    return create_empty_msg_data()
-
-
-def create_invalid_msg_data() -> str:
-    return create_empty_msg_data()
-
-
-def create_fin_msg_data() -> str:
-    return create_empty_msg_data()

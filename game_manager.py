@@ -7,16 +7,31 @@ import data_creation
 
 
 class DataPacket:
+    """
+    holds the data of a single message in the protocol
+    """
+
     def __init__(self, msg_type, msg_data):
         self.msg_type = msg_type
         self.msg_data = msg_data
 
 
 class BattleshipsGameManager:
+    """
+    handles battleships game logic
+    """
+
     def __init__(self):
         self.hit_counter = 0
 
     def play_turn(self, msg_type: str, msg_data: str) -> DataPacket:
+        """
+        play a single turn (get the opponent's message and return a response)
+        :param msg_type: the opponent's message type
+        :param msg_data: the opponent's message content
+        :return: the new response
+        """
+
         if consts.MsgTypes.INIT == msg_type:
             pass # do nothing
         elif consts.MsgTypes.SHOOT == msg_type:
@@ -42,6 +57,12 @@ class BattleshipsGameManager:
         return DataPacket(consts.MsgTypes.INVALID, 'unrecognized message type')
 
     def check_hit(self, location_x, location_y):
+        """
+        check if there is a battleship in a single location
+        :param location_x: the location on the x axis
+        :param location_y: the location on the y axis
+        :return: the hit type if there was a hit, None otherwise
+        """
         # randomly decide if there was a hit, TODO: implement an actual battleships game if you can
         if 1 == random.randint(0, 1):
             self.hit_counter += 1
@@ -54,5 +75,9 @@ class BattleshipsGameManager:
         return None
 
     def get_guess(self):
+        """
+        get the player's guess
+        :return: the guess
+        """
         # random guess, TODO: implement an actual battleships game if you can
         return random.randint(1, 10), random.randint(1, 10)

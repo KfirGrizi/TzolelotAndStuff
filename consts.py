@@ -1,6 +1,10 @@
 
 
 class MsgTypes:
+    """
+    holds every message type
+    """
+
     INIT = 'init'
     SHOOT = 'shoot'
     HIT = 'hit'
@@ -10,5 +14,9 @@ class MsgTypes:
 
 
 class Communication:
+    """
+    holds communication related consts
+    """
+
     PORT = 80
     SERVER_HOST = '127.0.0.1'

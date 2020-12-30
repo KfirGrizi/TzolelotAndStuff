@@ -6,9 +6,17 @@ import game_manager
 
 
 class BattleshipsHTTPRequestHandler(BaseHTTPRequestHandler):
+    """
+    handles a single message from the opponent and returns a single message
+    """
+
     battleships_game_manager = game_manager.BattleshipsGameManager()
     should_stop = False
     def do_POST(self):
+        """
+        handles a POST request - in this protocol it represent a message from the opponent
+        """
+
         # get data length
         length = int(self.headers.get('Content-length', 0))
 
@@ -42,10 +50,18 @@ class BattleshipsHTTPRequestHandler(BaseHTTPRequestHandler):
             BattleshipsHTTPRequestHandler.should_stop = True
 
     def log_message(self, format, *args):
+        """
+        handles logging, does nothing, since we don't want any logs to appear
+        """
+
         return # disable logging to console, there is no better way :(
 
 
 def main():
+    """
+    activate a battleships player (HTTP server side)
+    """
+
     server_address = ('', consts.Communication.PORT)
     httpd = HTTPServer(server_address, BattleshipsHTTPRequestHandler)
     while not BattleshipsHTTPRequestHandler.should_stop:
